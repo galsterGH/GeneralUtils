@@ -21,6 +21,33 @@ curl -fsSL https://raw.githubusercontent.com/galsterGH/GeneralUtils/main/install
   -o ~/install_zsh.sh && chmod +x ~/install_zsh.sh && ~/install_zsh.sh --make-default
 ```
 
+### macOS: Homebrew zsh
+
+Use the Homebrew zsh as your login shell and install the template:
+
+```bash
+# Install zsh via Homebrew
+brew install zsh
+
+# Set Homebrew zsh as your default login shell
+ZSH_PATH="$(brew --prefix)/bin/zsh"
+grep -qx "$ZSH_PATH" /etc/shells || echo "$ZSH_PATH" | sudo tee -a /etc/shells >/dev/null
+chsh -s "$ZSH_PATH"
+
+# Install sanitized ~/.zshrc from this repo
+curl -fsSL https://raw.githubusercontent.com/galsterGH/GeneralUtils/main/install_zsh.sh \
+  -o ~/install_zsh.sh && chmod +x ~/install_zsh.sh && ~/install_zsh.sh
+
+# Switch now and verify
+exec "$ZSH_PATH"
+echo $SHELL
+zsh --version
+```
+
+Notes:
+- The `chsh` command may prompt for your password.
+- `echo $SHELL` should print the same `ZSH_PATH` once you reopen your terminal or run `exec`.
+
 Automated (recommended):
 
 ```bash
