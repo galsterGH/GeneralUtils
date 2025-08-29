@@ -14,6 +14,13 @@ curl -fsSL https://raw.githubusercontent.com/galsterGH/GeneralUtils/main/install
   -o ~/install_zsh.sh && chmod +x ~/install_zsh.sh && ~/install_zsh.sh
 ```
 
+One-liner (make zsh the default shell too):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galsterGH/GeneralUtils/main/install_zsh.sh \
+  -o ~/install_zsh.sh && chmod +x ~/install_zsh.sh && ~/install_zsh.sh --make-default
+```
+
 Automated (recommended):
 
 ```bash
