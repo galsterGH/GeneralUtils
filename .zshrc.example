@@ -828,3 +828,100 @@ HLP
 }
 # --- END: manh function (Codex CLI) v2 ---
 
+
+# --- BEGIN: zshrc sync helper (Codex CLI) ---
+# zshrc_sync [--raw] [REPO_DIR]
+# - Copies ~/.zshrc to REPO_DIR/.zshrc.example
+# - Sanitizes secrets by default; use --raw to copy verbatim
+# - Commits and pushes changes on the current branch
+zshrc_sync() {
+  emulate -L zsh
+  set -o errexit -o nounset -o pipefail
+
+  local raw=false
+  local repo
+
+  if [[ "${1:-}" == "--raw" ]]; then
+    raw=true
+    shift
+  fi
+  repo="${1:-$HOME/Projects/GeneralUtils}"
+
+  if [[ ! -d "$repo" ]]; then
+    print -u2 -- "Repo directory not found: $repo"
+    return 1
+  fi
+  if [[ ! -d "$repo/.git" ]]; then
+    print -u2 -- "Not a git repo: $repo"
+    return 1
+  fi
+
+  local src="$HOME/.zshrc"
+  local dest="$repo/.zshrc.example"
+  local tmp="$dest.tmp.$$"
+
+  if [[ ! -f "$src" ]]; then
+    print -u2 -- "Source not found: $src"
+    return 1
+  fi
+
+  if [[ "$raw" == true ]]; then
+    cat "$src" >"$tmp"
+  else
+    awk '1' "$src" \
+    | sed -E \
+        -e 's/(Authorization:[[:space:]]*Bearer[[:space:]]+)[A-Za-z0-9._-]+/\1<REDACTED>/g' \
+        -e 's/\b(sk-[A-Za-z0-9_-]{10,})\b/<REDACTED:OPENAI_KEY>/g' \
+        -e 's/\b(ghp_[A-Za-z0-9]{20,})\b/<REDACTED:GITHUB_PAT>/g' \
+        -e 's/\b(gho_[A-Za-z0-9]{20,})\b/<REDACTED:GITHUB_OAUTH>/g' \
+        -e 's/\b(xox[baprs]-[A-Za-z0-9-]{10,})\b/<REDACTED:SLACK_TOKEN>/g' \
+        -e 's/\b(AIza[0-9A-Za-z_-]{20,})\b/<REDACTED:GOOGLE_KEY>/g' \
+        -e 's/\b(AKIA[0-9A-Z]{16})\b/<REDACTED:AWS_ACCESS_KEY_ID>/g' \
+        -e 's/\b([0-9a-z]{40})\b/<REDACTED:POTENTIAL_TOKEN>/g' \
+    >"$tmp"
+  fi
+
+  mv -f "$tmp" "$dest"
+  (
+    cd "$repo"
+    git add .zshrc.example
+    if git diff --cached --quiet; then
+      print -- "No changes to commit. Up to date."
+    else
+      local ts
+      ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+      git commit -m "Sync ~/.zshrc -> .zshrc.example ($ts)" >/dev/null
+      # Push to current branch
+      local branch
+      branch=$(git rev-parse --abbrev-ref HEAD)
+      git push -u origin "$branch" >/dev/null && print -- "Pushed to origin/$branch"
+    fi
+  )
+}
+
+# Convenience alias per request
+alias Sync='zshrc_sync'
+# --- END: zshrc sync helper (Codex CLI) ---
+
+
+# --- BEGIN: brew plugins + atuin (Codex CLI) ---
+# Homebrew-installed zsh plugins and Atuin init
+if command -v brew >/dev/null 2>&1; then
+  HOMEBREW_PREFIX="$(brew --prefix 2>/dev/null)"
+  # zsh-autosuggestions
+  if [ -r "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+    : ${ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE:=fg=8}
+    source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  fi
+  # zsh-syntax-highlighting (should be near the end of .zshrc)
+  if [ -r "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+    source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  fi
+fi
+
+# Atuin: smarter shell history with search/sync
+if command -v atuin >/dev/null 2>&1; then
+  eval "$(atuin init zsh)"
+fi
+# --- END: brew plugins + atuin (Codex CLI) ---
+
