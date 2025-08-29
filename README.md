@@ -20,3 +20,33 @@ Manual:
 cp .zshrc.example ~/.zshrc
 exec zsh   # or start a new shell
 ```
+
+## Keeping The Template In Sync
+
+If your machine has the `Sync` helper (alias for `zshrc_sync`) in your `~/.zshrc`, you can update and publish the template from any shell:
+
+```bash
+# Sanitize secrets, update .zshrc.example, commit and push
+Sync                 # defaults to ~/Projects/GeneralUtils
+
+# Copy verbatim (may be blocked by GitHub push protection)
+Sync --raw
+
+# Target a different repo directory
+Sync /path/to/GeneralUtils
+```
+
+Manual update (without the helper):
+
+```bash
+# In the repo root
+cd ~/Projects/GeneralUtils
+
+# Create/update the template (sanitize as needed)
+cp ~/.zshrc .zshrc.example
+
+# Commit and push
+git add .zshrc.example
+git commit -m "Update .zshrc.example"
+git push
+```
