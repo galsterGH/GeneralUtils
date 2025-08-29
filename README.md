@@ -7,6 +7,13 @@ Public repo with a sanitized `~/.zshrc` template.
 
 ## Installation
 
+One-liner (download to home and run):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galsterGH/GeneralUtils/main/install_zsh.sh \
+  -o ~/install_zsh.sh && chmod +x ~/install_zsh.sh && ~/install_zsh.sh
+```
+
 Automated (recommended):
 
 ```bash
