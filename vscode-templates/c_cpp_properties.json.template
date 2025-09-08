@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "{{OS_NAME}}",
+            "includePath": {{INCLUDE_PATHS}},
+            "compilerPath": "{{COMPILER_PATH}}",
+            "cppStandard": "{{CPP_STANDARD}}",
+            "intelliSenseMode": "{{INTELLISENSE_MODE}}",
+            "compilerArgs": {{COMPILER_ARGS}},
+            "defines": {{DEFINES}}
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,77 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build ({{COMPILER_NAME}})",
+      "type": "shell",
+      "command": "{{COMPILER_PATH}}",
+      "args": [
+        "-std={{CPP_STANDARD}}",
+        "-Wall",
+        "-Wextra",
+        "-g",
+        "-O0",
+        "-I${workspaceFolder}/include",
+        "${workspaceFolder}/src/*.cpp",
+        "-o",
+        "${workspaceFolder}/build/{{PROJECT_NAME}}"
+      ],
+      "options": { 
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "/bin/bash",
+          "args": ["-c"]
+        }
+      },
+      "group": {
+        "kind": "build", 
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Build Release ({{COMPILER_NAME}})",
+      "type": "shell",
+      "command": "{{COMPILER_PATH}}",
+      "args": [
+        "-std={{CPP_STANDARD}}",
+        "-Wall",
+        "-Wextra", 
+        "-O3",
+        "-DNDEBUG",
+        "-I${workspaceFolder}/include",
+        "${workspaceFolder}/src/*.cpp",
+        "-o",
+        "${workspaceFolder}/build/{{PROJECT_NAME}}"
+      ],
+      "options": { 
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "/bin/bash",
+          "args": ["-c"]
+        }
+      },
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "rm",
+      "args": ["-rf", "${workspaceFolder}/build/*"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Create Build Directory", 
+      "type": "shell",
+      "command": "mkdir",
+      "args": ["-p", "${workspaceFolder}/build"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

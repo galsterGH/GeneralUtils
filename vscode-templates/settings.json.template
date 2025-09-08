@@ -1,0 +1,47 @@
+{
+    "files.associations": {
+        "__verbose_abort": "cpp",
+        "any": "cpp",
+        "charconv": "cpp",
+        "cmath": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cstring": "cpp",
+        "cwchar": "cpp",
+        "memory": "cpp",
+        "forward_list": "cpp",
+        "initializer_list": "cpp",
+        "iosfwd": "cpp",
+        "limits": "cpp",
+        "locale": "cpp",
+        "new": "cpp",
+        "stdexcept": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "typeinfo": "cpp",
+        "variant": "cpp",
+        "vector": "cpp",
+        "cstddef": "cpp",
+        "algorithm": "cpp",
+        "__node_handle": "c"
+    },
+    "C_Cpp.formatting": "clangFormat",
+    "C_Cpp.clang_format_style": "file",
+    "C_Cpp.clang_format_fallbackStyle": "Google",
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
+    },
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
+    },
+    "C_Cpp.autoAddFileAssociations": false,
+    "files.defaultLanguage": "cpp",
+    "C_Cpp.autocompleteAddParentheses": true,
+    "C_Cpp.suggestSnippets": true,
+    "editor.suggest.snippetsPreventQuickSuggestions": false
+}

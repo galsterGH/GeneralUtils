@@ -1,0 +1,157 @@
+{
+    "Header Guard Template": {
+        "scope": "cpp,c",
+        "prefix": "header",
+        "body": [
+            "#ifndef ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_",
+            "#define ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_",
+            "",
+            "namespace {{NAMESPACE}} {",
+            "",
+            "$0",
+            "",
+            "}  // namespace {{NAMESPACE}}",
+            "",
+            "#endif  // ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_"
+        ],
+        "description": "Generate header file with include guards and namespace"
+    },
+    "Class Header Template": {
+        "scope": "cpp,c",
+        "prefix": "class",
+        "body": [
+            "#ifndef ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_",
+            "#define ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_",
+            "",
+            "namespace {{NAMESPACE}} {",
+            "",
+            "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} {",
+            "  public:",
+            "    ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}();",
+            "    ~${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}() = default;",
+            "",
+            "    ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}& other) = default;",
+            "    ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}&& other) = default;",
+            "",
+            "    ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}& operator=(const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}& other) = default;",
+            "    ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}& operator=(${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}&& other) = default;",
+            "",
+            "  private:",
+            "    $0",
+            "};",
+            "",
+            "}  // namespace {{NAMESPACE}}",
+            "",
+            "#endif  // ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H_"
+        ],
+        "description": "Generate class header with include guards, namespace, and standard methods"
+    },
+    "Include Memory": {
+        "scope": "cpp,c",
+        "prefix": "memory",
+        "body": ["#include <memory>"],
+        "description": "Include memory header for smart pointers"
+    },
+    "Include Vector": {
+        "scope": "cpp,c", 
+        "prefix": "vector",
+        "body": ["#include <vector>"],
+        "description": "Include vector header"
+    },
+    "Include String": {
+        "scope": "cpp,c",
+        "prefix": "string", 
+        "body": ["#include <string>"],
+        "description": "Include string header"
+    },
+    "Include Algorithm": {
+        "scope": "cpp,c",
+        "prefix": "algorithm",
+        "body": ["#include <algorithm>"], 
+        "description": "Include algorithm header"
+    },
+    "Include Iostream": {
+        "scope": "cpp,c",
+        "prefix": "iostream",
+        "body": ["#include <iostream>"],
+        "description": "Include iostream header"
+    },
+    "Include Utility": {
+        "scope": "cpp,c",
+        "prefix": "utility", 
+        "body": ["#include <utility>"],
+        "description": "Include utility header for std::move, std::forward"
+    },
+    "Include Functional": {
+        "scope": "cpp,c",
+        "prefix": "functional",
+        "body": ["#include <functional>"],
+        "description": "Include functional header"
+    },
+    "Getter Method": {
+        "scope": "cpp,c",
+        "prefix": "getter",
+        "body": [
+            "${1:Type} Get${2:PropertyName}() const {",
+            "    return ${3:member_variable};",
+            "}"
+        ],
+        "description": "Generate getter method"
+    },
+    "Setter Method": {
+        "scope": "cpp,c", 
+        "prefix": "setter",
+        "body": [
+            "void Set${1:PropertyName}(const ${2:Type}& ${3:parameter_name}) {",
+            "    ${4:member_variable} = ${3:parameter_name};",
+            "}"
+        ],
+        "description": "Generate setter method"
+    },
+    "Getter and Setter Pair": {
+        "scope": "cpp,c",
+        "prefix": "getset",
+        "body": [
+            "// Getter",
+            "${1:Type} Get${2:PropertyName}() const {",
+            "    return ${3:member_variable};",
+            "}",
+            "",
+            "// Setter", 
+            "void Set${2:PropertyName}(const ${1:Type}& ${4:parameter_name}) {",
+            "    ${3:member_variable} = ${4:parameter_name};",
+            "}"
+        ],
+        "description": "Generate getter and setter pair"
+    },
+    "Property with Getter/Setter": {
+        "scope": "cpp,c",
+        "prefix": "property",
+        "body": [
+            "private:",
+            "    ${1:Type} ${2:member_name};",
+            "",
+            "public:",
+            "    // Getter",
+            "    ${1:Type} Get${3:PropertyName}() const {",
+            "        return ${2:member_name};",
+            "    }",
+            "",
+            "    // Setter",
+            "    void Set${3:PropertyName}(const ${1:Type}& ${4:parameter_name}) {",
+            "        ${2:member_name} = ${4:parameter_name};",
+            "    }"
+        ],
+        "description": "Generate complete property with private member and public getter/setter"
+    },
+    "Const Reference Getter": {
+        "scope": "cpp,c",
+        "prefix": "crefgetter",
+        "body": [
+            "const ${1:Type}& Get${2:PropertyName}() const {",
+            "    return ${3:member_variable};",
+            "}"
+        ],
+        "description": "Generate const reference getter (for large objects)"
+    }
+}
