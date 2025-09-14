@@ -182,6 +182,7 @@ detect_macos_compiler() {
     DEBUG_TYPE="lldb"
 }
 
+
 # Detect Linux compiler
 detect_linux_compiler() {
     if command -v clang++ &> /dev/null; then
@@ -189,49 +190,59 @@ detect_linux_compiler() {
         INTELLISENSE_MODE="clang-x64"
         COMPILER_ARGS='["-std=c++20"]'
         DEFINES='[]'
-        
+
         # Find libc++ include path
         LIBCPP_PATH=$(find /usr/include -name "c++" -type d 2>/dev/null | head -1)
         if [[ -n "$LIBCPP_PATH" ]]; then
             VERSION_DIR=$(ls "$LIBCPP_PATH" | grep -E '^[0-9]+$' | sort -nr | head -1)
-            INCLUDE_PATHS="[
-            \"${workspaceFolder}/include/**\",
-            \"$LIBCPP_PATH/$VERSION_DIR\",
-            \"/usr/local/include\",
-            \"/usr/include\"
-        ]"
+            INCLUDE_PATHS=$(cat <<EOF
+[
+    "\${workspaceFolder}/include/**",
+    "$LIBCPP_PATH/$VERSION_DIR",
+    "/usr/local/include",
+    "/usr/include"
+]
+EOF
+)
         else
-            INCLUDE_PATHS='[
-            "${workspaceFolder}/include/**",
-            "/usr/local/include",
-            "/usr/include"
-        ]'
+            INCLUDE_PATHS=$(cat <<'EOF'
+[
+    "${workspaceFolder}/include/**",
+    "/usr/local/include",
+    "/usr/include"
+]
+EOF
+)
         fi
+        INCLUDE_PATHS=$(echo "$INCLUDE_PATHS" | tr '\n' ' ')
         log_info "Found Clang"
     elif command -v g++ &> /dev/null; then
         COMPILER_PATH=$(which g++)
         INTELLISENSE_MODE="gcc-x64"
         COMPILER_ARGS='["-std=c++20"]'
         DEFINES='[]'
-        
+
         # Find GCC include path
         GCC_VERSION=$(g++ -dumpversion | cut -d. -f1)
-        INCLUDE_PATHS="[
-            \"${workspaceFolder}/include/**\",
-            \"/usr/include/c++/$GCC_VERSION\",
-            \"/usr/include/c++/$GCC_VERSION/x86_64-linux-gnu\",
-            \"/usr/local/include\",
-            \"/usr/include\"
-        ]"
+        INCLUDE_PATHS=$(cat <<EOF
+[
+    "\${workspaceFolder}/include/**",
+    "/usr/include/c++/$GCC_VERSION",
+    "/usr/include/c++/$GCC_VERSION/x86_64-linux-gnu",
+    "/usr/local/include",
+    "/usr/include"
+]
+EOF
+)
+        INCLUDE_PATHS=$(echo "$INCLUDE_PATHS" | tr '\n' ' ')
         log_info "Found GCC"
     else
         log_error "No suitable C++ compiler found"
         exit 1
     fi
-    
+
     DEBUG_TYPE="gdb"
 }
-
 # Detect Windows compiler (stub for now)
 detect_windows_compiler() {
     log_error "Windows support not implemented yet"
