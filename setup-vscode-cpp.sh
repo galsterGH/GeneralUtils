@@ -156,23 +156,14 @@ detect_macos_compiler() {
         INTELLISENSE_MODE="clang-x64"
         COMPILER_ARGS='["-std=c++20", "-stdlib=libc++"]'
         DEFINES='["_LIBCPP_VERSION"]'
-        INCLUDE_PATHS='[
-            "${workspaceFolder}/include/**",
-            "/opt/homebrew/opt/llvm/include/c++/v1",
-            "/opt/homebrew/opt/llvm/lib/clang/18/include",
-            "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
-        ]'
+        INCLUDE_PATHS='["${workspaceFolder}/include/**", "/opt/homebrew/opt/llvm/include/c++/v1", "/opt/homebrew/opt/llvm/lib/clang/18/include", "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"]'
         log_info "Found Homebrew LLVM"
     elif command -v clang++ &> /dev/null; then
         COMPILER_PATH=$(which clang++)
         INTELLISENSE_MODE="clang-x64"
         COMPILER_ARGS='["-std=c++20", "-stdlib=libc++"]'
         DEFINES='["_LIBCPP_VERSION"]'
-        INCLUDE_PATHS='[
-            "${workspaceFolder}/include/**",
-            "/Library/Developer/CommandLineTools/usr/include/c++/v1",
-            "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
-        ]'
+        INCLUDE_PATHS='["${workspaceFolder}/include/**", "/Library/Developer/CommandLineTools/usr/include/c++/v1", "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"]'
         log_info "Found system Clang"
     else
         log_error "No suitable C++ compiler found"
@@ -195,26 +186,10 @@ detect_linux_compiler() {
         LIBCPP_PATH=$(find /usr/include -name "c++" -type d 2>/dev/null | head -1)
         if [[ -n "$LIBCPP_PATH" ]]; then
             VERSION_DIR=$(ls "$LIBCPP_PATH" | grep -E '^[0-9]+$' | sort -nr | head -1)
-            INCLUDE_PATHS=$(cat <<EOF
-[
-    "\${workspaceFolder}/include/**",
-    "$LIBCPP_PATH/$VERSION_DIR",
-    "/usr/local/include",
-    "/usr/include"
-]
-EOF
-)
+            INCLUDE_PATHS='["${workspaceFolder}/include/**", "'$LIBCPP_PATH/$VERSION_DIR'", "/usr/local/include", "/usr/include"]'
         else
-            INCLUDE_PATHS=$(cat <<'EOF'
-[
-    "${workspaceFolder}/include/**",
-    "/usr/local/include",
-    "/usr/include"
-]
-EOF
-)
+            INCLUDE_PATHS='["${workspaceFolder}/include/**", "/usr/local/include", "/usr/include"]'
         fi
-        INCLUDE_PATHS=$(echo "$INCLUDE_PATHS" | tr '\n' ' ')
         log_info "Found Clang"
     elif command -v g++ &> /dev/null; then
         COMPILER_PATH=$(which g++)
@@ -224,17 +199,7 @@ EOF
 
         # Find GCC include path
         GCC_VERSION=$(g++ -dumpversion | cut -d. -f1)
-        INCLUDE_PATHS=$(cat <<EOF
-[
-    "\${workspaceFolder}/include/**",
-    "/usr/include/c++/$GCC_VERSION",
-    "/usr/include/c++/$GCC_VERSION/x86_64-linux-gnu",
-    "/usr/local/include",
-    "/usr/include"
-]
-EOF
-)
-        INCLUDE_PATHS=$(echo "$INCLUDE_PATHS" | tr '\n' ' ')
+        INCLUDE_PATHS='["${workspaceFolder}/include/**", "/usr/include/c++/'$GCC_VERSION'", "/usr/include/c++/'$GCC_VERSION'/x86_64-linux-gnu", "/usr/local/include", "/usr/include"]'
         log_info "Found GCC"
     else
         log_error "No suitable C++ compiler found"
