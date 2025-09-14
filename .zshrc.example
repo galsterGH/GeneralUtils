@@ -136,17 +136,6 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--sort --exact"
 
-function chatgpt() {
-  local prompt="$1"
-  curl -X POST "https://api.openai.com/v1/chat/completions" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <REDACTED>" \
-  -d '{
-    "model": "gpt-3.5-turbo",
-    "messages": [{"role": "user", "content": "'"$prompt"'"}],
-    "max_tokens": 150
-  }'
-}
 
 
 
@@ -209,7 +198,7 @@ alias reload="source ~/.zshrc"
 alias oz="code ~/.zshrc"  # Assumes VS Code
 alias ffs="sudo !!"  # Rerun last command with sudo
 
-alias la="alias | grep -v 'oh-my-zsh' && cat ~/.zshrc | grep '^alias'"export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+alias la="alias | grep -v 'oh-my-zsh' && grep '^alias' ~/.zshrc"
 
 # --- BEGIN: grephelp function (Codex CLI) ---
 grephelp() {
@@ -297,7 +286,7 @@ HLP
 
 
 # --- BEGIN: grephelp alias (Codex CLI) ---
-alias gh='grephelp'
+alias ghelp='grephelp'
 # --- END: grephelp alias (Codex CLI) ---
 
 
@@ -925,3 +914,17 @@ if command -v atuin >/dev/null 2>&1; then
 fi
 # --- END: brew plugins + atuin (Codex CLI) ---
 
+
+# YouTube audio downloader
+ytmp3() {
+  if [ -z "$1" ]; then
+    echo "Usage: ytmp3 <youtube_url>"
+    return 1
+  fi
+  yt-dlp -x --audio-format mp3 "$1"
+}
+
+# --- Added by Codex CLI on 20250829133350 to ensure GitHub CLI 'gh' is not shadowed ---
+unalias gh 2>/dev/null || true
+unset -f gh 2>/dev/null || true
+# --- End Codex CLI block ---
