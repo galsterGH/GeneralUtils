@@ -91,3 +91,29 @@ git add .zshrc.example
 git commit -m "Update .zshrc.example"
 git push
 ```
+
+## VSCode C++ Environment Setup
+
+The `setup-vscode-cpp.sh` script bootstraps a C++ project for use with Visual Studio Code.
+Run it from the root of your project to generate a `.vscode` directory with tasks,
+launch configurations, and recommended extensions. The script also creates a
+`.clang-format` file and, for CMake projects, a `CMakePresets.json`.
+
+Basic usage:
+
+```bash
+./setup-vscode-cpp.sh      # auto-detect build system and defaults
+```
+
+Common options:
+
+```bash
+./setup-vscode-cpp.sh --project-name MyApp      # custom project name
+./setup-vscode-cpp.sh --namespace MyCompany::Util
+./setup-vscode-cpp.sh --standard c++17          # choose C++ standard
+./setup-vscode-cpp.sh --build-system cmake      # force build system
+./setup-vscode-cpp.sh --force                   # overwrite existing config
+```
+
+Use `./setup-vscode-cpp.sh --help` to view all available flags.
+
