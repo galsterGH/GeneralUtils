@@ -117,3 +117,37 @@ Common options:
 
 Use `./setup-vscode-cpp.sh --help` to view all available flags.
 
+## VSCode Go Environment Setup
+
+The `setup-vscode-golang.sh` script bootstraps a Go project for use with Visual Studio Code.
+Run it from the root of your project to generate a `.vscode` directory with tasks,
+launch configurations, and recommended extensions. The script automatically detects and
+installs Go if needed, sets up essential Go development tools, and creates a proper
+Go module structure.
+
+Basic usage:
+
+```bash
+./setup-vscode-golang.sh      # auto-detect everything
+```
+
+Common options:
+
+```bash
+./setup-vscode-golang.sh --project-name MyGoApp             # custom project name
+./setup-vscode-golang.sh --module-name github.com/user/repo # Go module name
+./setup-vscode-golang.sh --go-version 1.25                  # minimum Go version
+./setup-vscode-golang.sh --force                            # overwrite existing config
+./setup-vscode-golang.sh --install-go                       # force Go installation
+```
+
+The script will:
+- Check for Go installation and install if missing (supports macOS/Linux auto-install)
+- Install essential Go tools: `gopls`, `dlv`, `goimports`, and more
+- Create VSCode configuration optimized for Go development
+- Initialize a Go module if one doesn't exist
+- Set up project structure with `cmd/`, `pkg/`, and `internal/` directories
+- Generate sample `main.go` and `.gitignore` files
+
+Use `./setup-vscode-golang.sh --help` to view all available flags.
+

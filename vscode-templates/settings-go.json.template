@@ -1,0 +1,88 @@
+{
+    "go.goroot": "{{GO_ROOT}}",
+    "go.gopath": "{{GO_PATH_DIR}}",
+    "terminal.integrated.env.osx": {
+        "PATH": "{{GO_BIN_PATH}}:${env:PATH}"
+    },
+    "terminal.integrated.env.linux": {
+        "PATH": "{{GO_BIN_PATH}}:${env:PATH}"
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "go.useLanguageServer": true,
+    "go.formatTool": "goimports",
+    "go.lintTool": "golint",
+    "go.vetOnSave": "package",
+    "go.buildOnSave": "package",
+    "go.testOnSave": false,
+    "go.coverOnSave": false,
+    "go.gocodeAutoBuild": false,
+    "go.buildTags": "",
+    "go.testTags": "",
+    "go.testFlags": ["-v"],
+    "go.testTimeout": "30s",
+    "go.coverageDecorator": {
+        "type": "gutter",
+        "coveredHighlightColor": "rgba(64,128,128,0.5)",
+        "uncoveredHighlightColor": "rgba(128,64,64,0.25)",
+        "coveredGutterStyle": "blockblue",
+        "uncoveredGutterStyle": "blockred"
+    },
+    "go.delveConfig": {
+        "debugAdapter": "legacy",
+        "apiVersion": 2,
+        "dlvLoadConfig": {
+            "followPointers": true,
+            "maxVariableRecurse": 1,
+            "maxStringLen": 64,
+            "maxArrayValues": 64,
+            "maxStructFields": -1
+        }
+    },
+    "gopls": {
+        "formatting.gofumpt": true,
+        "ui.completion.usePlaceholders": true,
+        "ui.completion.completionBudget": "100ms",
+        "ui.diagnostic.analyses": {
+            "fieldalignment": true,
+            "nilness": true,
+            "unusedparams": true,
+            "unusedwrite": true,
+            "useany": true
+        },
+        "ui.codelenses": {
+            "gc_details": false,
+            "generate": true,
+            "regenerate_cgo": true,
+            "test": true,
+            "tidy": true,
+            "upgrade_dependency": true,
+            "vendor": true
+        }
+    },
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false
+    },
+    "[go.mod]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "files.associations": {
+        "*.go": "go"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/vendor": false
+    }
+}

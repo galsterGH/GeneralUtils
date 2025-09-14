@@ -1,0 +1,243 @@
+{
+    "Package declaration": {
+        "prefix": "package",
+        "body": [
+            "package ${1:main}",
+            "",
+            "$0"
+        ],
+        "description": "Package declaration"
+    },
+    "Import statement": {
+        "prefix": "import",
+        "body": [
+            "import (",
+            "\t\"${1:fmt}\"",
+            ")",
+            "",
+            "$0"
+        ],
+        "description": "Import statement"
+    },
+    "Main function": {
+        "prefix": "main",
+        "body": [
+            "func main() {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Main function"
+    },
+    "Function": {
+        "prefix": "func",
+        "body": [
+            "func ${1:name}(${2:params}) ${3:returnType} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Function declaration"
+    },
+    "Method": {
+        "prefix": "meth",
+        "body": [
+            "func (${1:receiver} ${2:Type}) ${3:methodName}(${4:params}) ${5:returnType} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Method declaration"
+    },
+    "If statement": {
+        "prefix": "if",
+        "body": [
+            "if ${1:condition} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "If statement"
+    },
+    "If error": {
+        "prefix": "iferr",
+        "body": [
+            "if err != nil {",
+            "\t$0",
+            "}"
+        ],
+        "description": "If error check"
+    },
+    "For loop": {
+        "prefix": "for",
+        "body": [
+            "for ${1:i := 0; i < len; i++} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "For loop"
+    },
+    "For range": {
+        "prefix": "forr",
+        "body": [
+            "for ${1:key}, ${2:value} := range ${3:collection} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "For range loop"
+    },
+    "Switch statement": {
+        "prefix": "switch",
+        "body": [
+            "switch ${1:expression} {",
+            "case ${2:value1}:",
+            "\t$0",
+            "case ${3:value2}:",
+            "\t",
+            "default:",
+            "\t",
+            "}"
+        ],
+        "description": "Switch statement"
+    },
+    "Type switch": {
+        "prefix": "tswitch",
+        "body": [
+            "switch ${1:v} := ${2:expression}.(type) {",
+            "case ${3:string}:",
+            "\t$0",
+            "case ${4:int}:",
+            "\t",
+            "default:",
+            "\t",
+            "}"
+        ],
+        "description": "Type switch"
+    },
+    "Struct": {
+        "prefix": "struct",
+        "body": [
+            "type ${1:Name} struct {",
+            "\t${2:Field} ${3:Type} `${4:json:\"field\"}${5:`}",
+            "}"
+        ],
+        "description": "Struct declaration"
+    },
+    "Interface": {
+        "prefix": "interface",
+        "body": [
+            "type ${1:Name} interface {",
+            "\t${2:Method}(${3:params}) ${4:returnType}",
+            "}"
+        ],
+        "description": "Interface declaration"
+    },
+    "Goroutine": {
+        "prefix": "go",
+        "body": [
+            "go func() {",
+            "\t$0",
+            "}()"
+        ],
+        "description": "Anonymous goroutine"
+    },
+    "Channel": {
+        "prefix": "ch",
+        "body": [
+            "${1:ch} := make(chan ${2:Type}${3:, ${4:buffer}})"
+        ],
+        "description": "Channel declaration"
+    },
+    "Select statement": {
+        "prefix": "select",
+        "body": [
+            "select {",
+            "case ${1:v} := <-${2:ch}:",
+            "\t$0",
+            "case ${3:ch2} <- ${4:value}:",
+            "\t",
+            "default:",
+            "\t",
+            "}"
+        ],
+        "description": "Select statement"
+    },
+    "Defer statement": {
+        "prefix": "defer",
+        "body": [
+            "defer ${1:function}($0)"
+        ],
+        "description": "Defer statement"
+    },
+    "Test function": {
+        "prefix": "test",
+        "body": [
+            "func Test${1:FunctionName}(t *testing.T) {",
+            "\t${2:// Arrange}",
+            "\t$0",
+            "\t",
+            "\t${3:// Act}",
+            "\t",
+            "\t",
+            "\t${4:// Assert}",
+            "\t",
+            "}"
+        ],
+        "description": "Test function"
+    },
+    "Benchmark function": {
+        "prefix": "bench",
+        "body": [
+            "func Benchmark${1:FunctionName}(b *testing.B) {",
+            "\tfor i := 0; i < b.N; i++ {",
+            "\t\t$0",
+            "\t}",
+            "}"
+        ],
+        "description": "Benchmark function"
+    },
+    "Example function": {
+        "prefix": "example",
+        "body": [
+            "func Example${1:FunctionName}() {",
+            "\t$0",
+            "\t// Output:",
+            "\t// ${2:expected output}",
+            "}"
+        ],
+        "description": "Example function"
+    },
+    "HTTP handler": {
+        "prefix": "handler",
+        "body": [
+            "func ${1:handlerName}(w http.ResponseWriter, r *http.Request) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "HTTP handler function"
+    },
+    "Error creation": {
+        "prefix": "err",
+        "body": [
+            "errors.New(\"${1:error message}\")"
+        ],
+        "description": "Create new error"
+    },
+    "Formatted error": {
+        "prefix": "errf",
+        "body": [
+            "fmt.Errorf(\"${1:format}\", ${2:args})"
+        ],
+        "description": "Formatted error"
+    },
+    "Printf": {
+        "prefix": "printf",
+        "body": [
+            "fmt.Printf(\"${1:format}\\n\", ${2:args})"
+        ],
+        "description": "Printf statement"
+    },
+    "Println": {
+        "prefix": "println",
+        "body": [
+            "fmt.Println(${1:args})"
+        ],
+        "description": "Println statement"
+    }
+}
